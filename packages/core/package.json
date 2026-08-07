@@ -7,12 +7,16 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "test": "jest"
   },
   "dependencies": {
     "@jswork/pipe": "^1.1.2"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "@types/jest": "^29.5.0",
     "typescript": "^5.0.0"
   },
   "keywords": ["request", "http", "adapter", "fetch", "axios"],
