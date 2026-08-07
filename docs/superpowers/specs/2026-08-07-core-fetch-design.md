@@ -21,7 +21,7 @@
 
 ```
 packages/
-├── core/                                # @universal-request/core
+├── core/                                # @jswork/universal-request-core
 │   ├── src/
 │   │   ├── types.ts                    # 所有类型定义
 │   │   ├── errors.ts                   # RequestError + ErrorType
@@ -34,7 +34,7 @@ packages/
 │   └── tsconfig.json
 │
 └── adapters/
-    └── fetch/                           # @universal-request/adapter-fetch
+    └── fetch/                           # @jswork/universal-request-adapter-fetch
         ├── src/
         │   ├── fetch-adapter.ts        # Fetch 适配器实现
         │   └── index.ts                # 导出
@@ -533,8 +533,8 @@ export function createRequest(config: RequestCoreConfig): RequestCore {
 Web fetch 适配器实现。
 
 ```typescript
-import { BaseAdapter } from '@universal-request/core';
-import type { RequestConfig, Response } from '@universal-request/core';
+import { BaseAdapter } from '@jswork/universal-request-core';
+import type { RequestConfig, Response } from '@jswork/universal-request-core';
 
 export class FetchAdapter extends BaseAdapter {
   async request(config: RequestConfig): Promise<Response> {
@@ -604,8 +604,8 @@ export class FetchAdapter extends BaseAdapter {
 ## 5. 使用示例
 
 ```typescript
-import { createRequest } from '@universal-request/core';
-import { FetchAdapter } from '@universal-request/adapter-fetch';
+import { createRequest } from '@jswork/universal-request-core';
+import { FetchAdapter } from '@jswork/universal-request-adapter-fetch';
 
 const request = createRequest({
   adapter: new FetchAdapter(),
@@ -662,9 +662,9 @@ core/src/
 
 ```
 packages/adapters/
-├── fetch/       ✅ 本 spec
-├── axios/       📋 待实现
-└── mp-wx/       📋 待实现
+├── fetch/       ✅ 本 spec        # @jswork/universal-request-adapter-fetch
+├── axios/       📋 待实现         # @jswork/universal-request-adapter-axios
+└── mp-wx/       📋 待实现         # @jswork/universal-request-adapter-mp-wx
 ```
 
 ---
