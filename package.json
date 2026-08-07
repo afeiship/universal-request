@@ -4,11 +4,12 @@
   "workspaces": {
     "packages": [
       "packages/*",
-      "packages/adapters/*"
+      "packages/adapters/*",
+      "apps/*"
     ]
   },
   "scripts": {
-    "start": "yarn --cwd packages/websites start",
+    "start": "pnpm --filter @jswork/universal-request-playground dev",
     "lerna:clean": "lerna clean",
     "lerna:list": "lerna list",
     "lerna:bootstrap": "lerna bootstrap",
