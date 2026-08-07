@@ -1,0 +1,285 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-size: 14px;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  padding: 16px 24px;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.app-header h1 {
+  font-size: 18px;
+  color: #58a6ff;
+}
+
+.app-header .subtitle {
+  color: #8b949e;
+  font-size: 13px;
+}
+
+.app-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 16px;
+  padding: 16px;
+}
+
+.panel-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.card h2 {
+  font-size: 14px;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.card-header h2 {
+  margin-bottom: 0;
+}
+
+.form-row {
+  margin-bottom: 12px;
+}
+
+.form-row label {
+  display: block;
+  font-size: 12px;
+  color: #8b949e;
+  margin-bottom: 4px;
+}
+
+.form-row input[type='text'],
+.form-row input[type='number'],
+.form-row select,
+.form-row textarea {
+  width: 100%;
+  padding: 6px 8px;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  color: #c9d1d9;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.form-row textarea {
+  resize: vertical;
+  font-family: 'SF Mono', Consolas, monospace;
+}
+
+.form-row-inline {
+  display: flex;
+  gap: 12px;
+}
+
+.form-cell {
+  flex: 1;
+}
+
+.form-cell label {
+  display: block;
+  font-size: 12px;
+  color: #8b949e;
+  margin-bottom: 4px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: #c9d1d9 !important;
+  margin-bottom: 0 !important;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  background: #21262d;
+  color: #c9d1d9;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn:hover:not(:disabled) {
+  background: #30363d;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #238636;
+  border-color: #238636;
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #2ea043;
+}
+
+.btn-danger {
+  background: #da3633;
+  border-color: #da3633;
+  color: #fff;
+}
+
+.btn-small {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.placeholder {
+  color: #6e7681;
+  font-style: italic;
+  padding: 16px 0;
+}
+
+.response-meta {
+  margin-bottom: 12px;
+}
+
+.status {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.status-ok {
+  background: rgba(35, 134, 54, 0.2);
+  color: #3fb950;
+}
+
+.status-err {
+  background: rgba(218, 54, 51, 0.2);
+  color: #f85149;
+}
+
+.response-section {
+  margin-bottom: 12px;
+}
+
+.response-section strong {
+  display: block;
+  font-size: 12px;
+  color: #8b949e;
+  margin-bottom: 4px;
+}
+
+pre {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  padding: 10px;
+  overflow-x: auto;
+  font-size: 12px;
+  font-family: 'SF Mono', Consolas, monospace;
+  color: #c9d1d9;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.error-box {
+  background: rgba(218, 54, 51, 0.1);
+  border: 1px solid rgba(218, 54, 51, 0.4);
+  border-radius: 4px;
+  padding: 12px;
+}
+
+.error-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #da3633;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.error-message {
+  color: #f85149;
+  font-size: 13px;
+  word-break: break-word;
+}
+
+.log-list {
+  list-style: none;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.log-item {
+  display: flex;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #21262d;
+  font-family: 'SF Mono', Consolas, monospace;
+  font-size: 12px;
+}
+
+.log-time {
+  color: #6e7681;
+  flex-shrink: 0;
+}
+
+.log-request .log-message {
+  color: #58a6ff;
+}
+
+.log-response .log-message {
+  color: #3fb950;
+}
+
+.log-error .log-message {
+  color: #f85149;
+}
