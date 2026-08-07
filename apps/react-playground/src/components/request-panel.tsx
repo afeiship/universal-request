@@ -42,6 +42,16 @@ export function RequestPanel({ config, onChange, onSend, onAbort, loading }: Req
       </div>
 
       <div className="form-row">
+        <label>Headers (JSON, optional)</label>
+        <textarea
+          value={config.headersText}
+          onChange={(e) => onChange({ headersText: e.target.value })}
+          rows={3}
+          placeholder='{"Authorization": "Bearer xxx"}'
+        />
+      </div>
+
+      <div className="form-row">
         <label>Params (JSON)</label>
         <textarea
           value={config.paramsText}

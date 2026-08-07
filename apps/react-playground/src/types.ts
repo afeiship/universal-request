@@ -3,6 +3,7 @@ import type { HttpMethod, DataType, ResponseType } from '@jswork/universal-reque
 export interface RequestState {
   method: HttpMethod;
   url: string;
+  headersText: string;
   paramsText: string;
   bodyText: string;
   timeout: number;

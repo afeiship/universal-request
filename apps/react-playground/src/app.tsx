@@ -10,6 +10,7 @@ import { LogPanel } from './components/log-panel';
 const DEFAULT_STATE: RequestState = {
   method: 'GET',
   url: '/posts?_limit=5',
+  headersText: '',
   paramsText: '',
   bodyText: '{\n  "title": "foo",\n  "body": "bar",\n  "userId": 1\n}',
   timeout: 0,
@@ -24,6 +25,7 @@ export default function App() {
   const [response, setResponse] = useState<Response | null>(null);
   const [error, setError] = useState<RequestError | null>(null);
   const [loading, setLoading] = useState(false);
+  const [duration, setDuration] = useState(0);
   const controllerRef = useRef<AbortController | null>(null);
 
   const handleChange = (patch: Partial<RequestState>) => {
@@ -46,8 +48,10 @@ export default function App() {
 
     const controller = new AbortController();
     controllerRef.current = controller;
+    const start = performance.now();
 
     try {
+      const headers = parseJson(state.headersText, 'headers');
       const params = parseJson(state.paramsText, 'params');
       const hasBody = state.method !== 'GET' && state.method !== 'HEAD';
       const data = hasBody ? parseJson(state.bodyText, 'body') : undefined;
@@ -55,6 +59,7 @@ export default function App() {
       const res = await request.request({
         url: state.url,
         method: state.method,
+        headers,
         params,
         data,
         timeout: state.timeout > 0 ? state.timeout : undefined,
@@ -81,6 +86,7 @@ export default function App() {
         );
       }
     } finally {
+      setDuration(performance.now() - start);
       setLoading(false);
     }
   };
@@ -106,7 +112,7 @@ export default function App() {
           />
         </section>
         <section className="panel-right">
-          <ResponsePanel response={response} error={error} loading={loading} />
+          <ResponsePanel response={response} error={error} loading={loading} duration={duration} />
           <LogPanel />
         </section>
       </main>

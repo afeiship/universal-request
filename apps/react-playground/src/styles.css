@@ -185,6 +185,20 @@ body {
 
 .response-meta {
   margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.meta-sep {
+  color: #30363d;
+}
+
+.meta-duration,
+.meta-size {
+  color: #8b949e;
+  font-size: 12px;
+  font-family: 'SF Mono', Consolas, monospace;
 }
 
 .status {
@@ -204,15 +218,49 @@ body {
   color: #f85149;
 }
 
-.response-section {
+.tabs {
+  display: flex;
+  gap: 0;
   margin-bottom: 12px;
+  border-bottom: 1px solid #30363d;
 }
 
-.response-section strong {
+.tab {
+  padding: 6px 14px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #8b949e;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.tab:hover {
+  color: #c9d1d9;
+}
+
+.tab-active {
+  color: #58a6ff;
+  border-bottom-color: #58a6ff;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.section-header strong {
   display: block;
   font-size: 12px;
   color: #8b949e;
-  margin-bottom: 4px;
+}
+
+.response-section {
+  margin-bottom: 12px;
 }
 
 pre {
