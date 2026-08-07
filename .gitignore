@@ -1,4 +1,7 @@
+dist
 node_modules
-bower_components
-coverage
+yarn.lock
+pnpm-lock.yaml
+
 .idea
+.vscode
