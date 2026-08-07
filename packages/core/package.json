@@ -1,0 +1,25 @@
+{
+  "name": "@jswork/universal-request-core",
+  "version": "1.0.0",
+  "description": "Universal request core with adapter pattern",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@jswork/pipe": "^1.1.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "keywords": ["request", "http", "adapter", "fetch", "axios"],
+  "author": "afeiship",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/afeiship/universal-request"
+  }
+}
