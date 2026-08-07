@@ -1,0 +1,26 @@
+{
+  "name": "@jswork/universal-request-adapter-fetch",
+  "version": "1.0.0",
+  "description": "Fetch adapter for universal-request",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "peerDependencies": {
+    "@jswork/universal-request-core": "^1.0.0"
+  },
+  "devDependencies": {
+    "@jswork/universal-request-core": "^1.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": ["request", "fetch", "adapter", "http"],
+  "author": "afeiship",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/afeiship/universal-request"
+  }
+}
