@@ -13,7 +13,7 @@
     "@jswork/universal-request-core": "^1.0.0"
   },
   "devDependencies": {
-    "@jswork/universal-request-core": "^1.0.0",
+    "@jswork/universal-request-core": "workspace:*",
     "typescript": "^5.0.0"
   },
   "keywords": ["request", "fetch", "adapter", "http"],

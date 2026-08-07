@@ -1,0 +1,46 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .: {}
+
+  packages/adapters/fetch:
+    devDependencies:
+      '@jswork/universal-request-core':
+        specifier: workspace:*
+        version: link:../../core
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/core:
+    dependencies:
+      '@jswork/pipe':
+        specifier: ^1.1.2
+        version: 1.1.2
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/websites: {}
+
+packages:
+
+  '@jswork/pipe@1.1.2':
+    resolution: {integrity: sha512-zbgzUiFG1JqlmLrDiGqtyBMNIgolMWuLwgf7ALTwwVjHxamPbjPv63WqAPXA1MGOUsTn/Jz7sKmiBcqiPrxxJA==}
+
+  typescript@5.9.3:
+    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+snapshots:
+
+  '@jswork/pipe@1.1.2': {}
+
+  typescript@5.9.3: {}
