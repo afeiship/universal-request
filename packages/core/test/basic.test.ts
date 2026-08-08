@@ -220,7 +220,7 @@ describe('RequestCore Basic', () => {
     const adapter = new MockAdapter();
     const request = createRequest({ adapter });
 
-    await request.get('/users', undefined, { meta: { tags: ['ni2lv'] } as any });
+    await request.get('/users', undefined, { meta: { tags: ['ni2lv'] } });
     expect(adapter.lastConfig?.meta).toEqual({ tags: ['ni2lv'] });
   });
 });
