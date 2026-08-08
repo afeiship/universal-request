@@ -1,6 +1,6 @@
 {
   "name": "@jswork/universal-request-interceptor-logger",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Logger interceptor for universal-request",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,7 +19,7 @@
     "@jswork/universal-request-core": "^1.0.0"
   },
   "devDependencies": {
-    "@jswork/universal-request-core": "1.0.5",
+    "@jswork/universal-request-core": "workspace:*",
     "typescript": "^5.0.0"
   },
   "keywords": [
