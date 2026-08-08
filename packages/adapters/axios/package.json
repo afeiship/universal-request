@@ -1,6 +1,6 @@
 {
   "name": "@jswork/universal-request-adapter-axios",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Axios adapter for universal-request",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
