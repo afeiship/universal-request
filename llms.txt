@@ -57,7 +57,7 @@
   - 页面: `pages/fetch-page.tsx`, `pages/axios-page.tsx`
   - 组件: RequestPanel, ResponsePanel, LogPanel
   - 请求实例: `request/fetch-instance.ts`, `request/axios-instance.ts`
-  - 类型: `RequestState` (method, url, headersText, paramsText, bodyText, timeout, slim, resolveAble, dataType, responseType)
+  - 类型: `RequestState` (method, url, headersText, paramsText, bodyText, timeout, resolveError, dataType, responseType)
 
 ## Architecture
 
@@ -77,5 +77,4 @@
 - 请求取消（AbortController）
 - TypeScript 完整类型支持
 - 多种数据格式（json/urlencoded/multipart/text/blob/auto）
-- slim 响应精简模式
-- resolveAble 错误恢复模式
+- resolveError 错误恢复模式
