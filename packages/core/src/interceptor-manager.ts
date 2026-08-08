@@ -1,20 +1,20 @@
 import type { UnifiedInterceptor, RequestConfig, Response } from './types';
 
 /**
- * 统一的拦截器管理器
+ * Unified interceptor manager
  */
 export class InterceptorManager {
   private interceptors: UnifiedInterceptor[] = [];
 
   /**
-   * 添加拦截器
+   * Add an interceptor
    */
   use(interceptor: UnifiedInterceptor): void {
     this.interceptors.push(interceptor);
   }
 
   /**
-   * 移除拦截器
+   * Remove an interceptor
    */
   eject(id: string): boolean {
     const index = this.interceptors.findIndex((item) => item.id === id);
@@ -26,28 +26,28 @@ export class InterceptorManager {
   }
 
   /**
-   * 清空所有拦截器
+   * Clear all interceptors
    */
   clear(): void {
     this.interceptors = [];
   }
 
   /**
-   * 获取指定拦截器
+   * Get a specific interceptor
    */
   get(id: string): UnifiedInterceptor | undefined {
     return this.interceptors.find((item) => item.id === id);
   }
 
   /**
-   * 获取所有拦截器
+   * Get all interceptors
    */
   getAll(): UnifiedInterceptor[] {
     return [...this.interceptors];
   }
 
   /**
-   * 执行请求阶段拦截器
+   * Execute request-phase interceptors
    */
   async executeRequest(value: RequestConfig): Promise<RequestConfig> {
     let result = value;
@@ -60,7 +60,7 @@ export class InterceptorManager {
   }
 
   /**
-   * 执行响应阶段拦截器
+   * Execute response-phase interceptors
    */
   async executeResponse(value: Response): Promise<Response> {
     let result = value;
@@ -73,7 +73,7 @@ export class InterceptorManager {
   }
 
   /**
-   * 执行错误处理（反向执行）
+   * Execute error handling (in reverse order)
    */
   async executeError(error: any): Promise<any> {
     let currentError = error;
