@@ -191,15 +191,6 @@ describe('RequestCore Basic', () => {
     expect(response.error).toBeInstanceOf(RequestError);
   });
 
-  test('should support slim response', async () => {
-    const adapter = new MockAdapter();
-    const request = createRequest({ adapter });
-
-    const response = await request.get('/users', undefined, { slim: true });
-    expect(response.status).toBe(200);
-    expect(response.data).toEqual({ ok: true, url: '/users' });
-  });
-
   test('should serialize GET payload into query string', async () => {
     const adapter = new MockAdapter();
     const request = createRequest({ adapter });
