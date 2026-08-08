@@ -5,3 +5,5 @@ yarn.lock
 .idea
 .vscode
 .superpowers
+
+lerna-debug.log
