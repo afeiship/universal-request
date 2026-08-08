@@ -10,7 +10,7 @@ export interface LoggerInterceptorOptions {
 export function createLoggerInterceptor(options?: LoggerInterceptorOptions): UnifiedInterceptor {
   const prefix = options?.prefix || '[UR]';
   const onRequest = options?.onRequest ?? ((config: any) => {
-    console.log(`[request] ${prefix} → ${config.method} ${config.url}`, config.params || config.data || '');
+    console.log(`[request] ${prefix} → ${config.method} ${config.url}`, config.payload || '');
   });
   const onResponse = options?.onResponse ?? ((response: any) => {
     console.log(`[response] ${prefix} ← ${response.status} ${response.statusText}`);
