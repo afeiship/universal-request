@@ -52,16 +52,13 @@ export default function AxiosPage() {
 
     try {
       const headers = parseJson(state.headersText, 'headers');
-      const params = parseJson(state.paramsText, 'params');
-      const hasBody = state.method !== 'GET' && state.method !== 'HEAD';
-      const data = hasBody ? parseJson(state.bodyText, 'body') : undefined;
+      const payload = parseJson(state.bodyText, 'body');
 
       const res = await request.request({
         url: state.url,
         method: state.method,
         headers,
-        params,
-        data,
+        payload,
         timeout: state.timeout > 0 ? state.timeout : undefined,
         slim: state.slim,
         resolveError: state.resolveError,
