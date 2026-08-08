@@ -37,9 +37,9 @@ export abstract class BaseAdapter implements Adapter {
    * 序列化请求数据（根据 dataType）
    */
   protected serializeData(config: RequestConfig): { body?: any; headers: Record<string, string> } {
-    const { data, dataType = 'json', headers = {} } = config;
+    const { payload, dataType = 'json', headers = {} } = config;
 
-    if (data === undefined || data === null) {
+    if (payload === undefined || payload === null) {
       return { headers };
     }
 
@@ -47,18 +47,18 @@ export abstract class BaseAdapter implements Adapter {
 
     switch (dataType) {
       case 'json':
-        result.body = safeStringify(data);
+        result.body = safeStringify(payload);
         result.headers['Content-Type'] = 'application/json;charset=utf-8';
         break;
 
       case 'urlencoded':
-        result.body = new URLSearchParams(data).toString();
+        result.body = new URLSearchParams(payload).toString();
         result.headers['Content-Type'] = 'application/x-www-form-urlencoded';
         break;
 
       case 'multipart': {
         const fd = new FormData();
-        Object.entries(data).forEach(([key, value]) => {
+        Object.entries(payload).forEach(([key, value]) => {
           fd.append(key, value as any);
         });
         result.body = fd;
@@ -67,34 +67,34 @@ export abstract class BaseAdapter implements Adapter {
       }
 
       case 'text':
-        result.body = String(data);
+        result.body = String(payload);
         result.headers['Content-Type'] = 'text/plain';
         break;
 
       case 'blob':
-        result.body = data;
+        result.body = payload;
         break;
 
       case 'auto': {
         // 自动判断：有文件用 multipart，否则用 json
-        const hasFile = Object.values(data).some(v =>
+        const hasFile = Object.values(payload).some(v =>
           v instanceof File || v instanceof Blob || v instanceof FormData
         );
         if (hasFile) {
           const fd = new FormData();
-          Object.entries(data).forEach(([key, value]) => {
+          Object.entries(payload).forEach(([key, value]) => {
             fd.append(key, value as any);
           });
           result.body = fd;
         } else {
-          result.body = safeStringify(data);
+          result.body = safeStringify(payload);
           result.headers['Content-Type'] = 'application/json;charset=utf-8';
         }
         break;
       }
 
       default:
-        result.body = data;
+        result.body = payload;
     }
 
     return result;
