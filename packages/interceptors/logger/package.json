@@ -1,0 +1,32 @@
+{
+  "name": "@jswork/universal-request-interceptor-logger",
+  "version": "1.0.0",
+  "description": "Logger interceptor for universal-request",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "peerDependencies": {
+    "@jswork/universal-request-core": "^1.0.0"
+  },
+  "devDependencies": {
+    "@jswork/universal-request-core": "workspace:*",
+    "typescript": "^5.0.0"
+  },
+  "keywords": ["request", "interceptor", "logger", "universal-request"],
+  "author": "afeiship",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/afeiship/universal-request"
+  }
+}

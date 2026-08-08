@@ -1,5 +1,5 @@
 // Types
-export type { HttpMethod, ResponseType, DataType, RequestConfig, Response, Interceptor, Adapter, RequestCoreConfig } from './types';
+export type { HttpMethod, ResponseType, DataType, RequestConfig, Response, Interceptor, UnifiedInterceptor, Adapter, RequestCoreConfig } from './types';
 
 // Errors
 export { ErrorType, RequestError } from './errors';

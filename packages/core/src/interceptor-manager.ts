@@ -1,36 +1,28 @@
-import pipe from '@jswork/pipe';
-import type { Interceptor } from './types';
+import type { UnifiedInterceptor, RequestConfig, Response } from './types';
 
 /**
- * 拦截器管理器
+ * 统一的拦截器管理器
  */
-export class InterceptorManager<V, R = V> {
-  private interceptors: Array<{
-    id: number;
-    interceptor: Interceptor<V, R>;
-  }> = [];
-  private idCounter = 0;
+export class InterceptorManager {
+  private interceptors: UnifiedInterceptor[] = [];
 
   /**
    * 添加拦截器
    */
-  use(fulfilled?: (value: V) => R | Promise<R>, rejected?: (error: any) => any): number {
-    const id = this.idCounter++;
-    this.interceptors.push({
-      id,
-      interceptor: { fulfilled, rejected }
-    });
-    return id;
+  use(interceptor: UnifiedInterceptor): void {
+    this.interceptors.push(interceptor);
   }
 
   /**
    * 移除拦截器
    */
-  eject(id: number): void {
-    const index = this.interceptors.findIndex(item => item.id === id);
+  eject(id: string): boolean {
+    const index = this.interceptors.findIndex((item) => item.id === id);
     if (index !== -1) {
       this.interceptors.splice(index, 1);
+      return true;
     }
+    return false;
   }
 
   /**
@@ -41,35 +33,60 @@ export class InterceptorManager<V, R = V> {
   }
 
   /**
-   * 执行拦截器链（基于 pipe）
+   * 获取指定拦截器
    */
-  async execute(value: V): Promise<R> {
-    const fns = this.interceptors
-      .map(item => item.interceptor.fulfilled)
-      .filter(Boolean) as Array<(value: any) => any>;
-
-    if (fns.length === 0) {
-      return value as any;
-    }
-
-    const pipeline = pipe.async(...fns);
-    return await pipeline(value);
+  get(id: string): UnifiedInterceptor | undefined {
+    return this.interceptors.find((item) => item.id === id);
   }
 
   /**
-   * 处理错误（反向查找第一个有 rejected 的拦截器）
+   * 获取所有拦截器
    */
-  async handleError(error: any): Promise<any> {
+  getAll(): UnifiedInterceptor[] {
+    return [...this.interceptors];
+  }
+
+  /**
+   * 执行请求阶段拦截器
+   */
+  async executeRequest(value: RequestConfig): Promise<RequestConfig> {
+    let result = value;
+    for (const interceptor of this.interceptors) {
+      if (interceptor.request) {
+        result = await interceptor.request(result);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * 执行响应阶段拦截器
+   */
+  async executeResponse(value: Response): Promise<Response> {
+    let result = value;
+    for (const interceptor of this.interceptors) {
+      if (interceptor.response) {
+        result = await interceptor.response(result);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * 执行错误处理（反向执行）
+   */
+  async executeError(error: any): Promise<any> {
+    let currentError = error;
     for (let i = this.interceptors.length - 1; i >= 0; i--) {
-      const interceptor = this.interceptors[i].interceptor;
-      if (interceptor.rejected) {
+      const interceptor = this.interceptors[i];
+      if (interceptor.error) {
         try {
-          return await interceptor.rejected(error);
+          return await interceptor.error(currentError);
         } catch (err) {
-          error = err;
+          currentError = err;
         }
       }
     }
-    throw error;
+    throw currentError;
   }
 }

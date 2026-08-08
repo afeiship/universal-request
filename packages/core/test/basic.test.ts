@@ -47,12 +47,14 @@ describe('RequestCore Basic', () => {
     const adapter = new MockAdapter();
     const request = createRequest({ adapter });
 
-    const id = request.interceptors.request.use((config) => {
-      config.headers = { ...config.headers, Authorization: 'Bearer token' };
-      return config;
+    request.interceptors.use({
+      id: 'auth',
+      request: (config) => {
+        config.headers = { ...config.headers, Authorization: 'Bearer token' };
+        return config;
+      }
     });
 
-    expect(id).toBe(0);
     await request.get('/users');
     expect(adapter.lastConfig?.headers?.Authorization).toBe('Bearer token');
   });
@@ -61,13 +63,19 @@ describe('RequestCore Basic', () => {
     const adapter = new MockAdapter();
     const request = createRequest({ adapter });
 
-    request.interceptors.request.use((config) => {
-      config.headers = { ...config.headers, 'X-First': '1' };
-      return config;
+    request.interceptors.use({
+      id: 'first',
+      request: (config) => {
+        config.headers = { ...config.headers, 'X-First': '1' };
+        return config;
+      }
     });
-    request.interceptors.request.use((config) => {
-      config.headers = { ...config.headers, 'X-Second': '2' };
-      return config;
+    request.interceptors.use({
+      id: 'second',
+      request: (config) => {
+        config.headers = { ...config.headers, 'X-Second': '2' };
+        return config;
+      }
     });
 
     await request.get('/users');
@@ -79,9 +87,12 @@ describe('RequestCore Basic', () => {
     const adapter = new MockAdapter();
     const request = createRequest({ adapter });
 
-    request.interceptors.response.use((response) => {
-      response.data = { ...response.data, intercepted: true };
-      return response;
+    request.interceptors.use({
+      id: 'resp',
+      response: (response) => {
+        response.data = { ...response.data, intercepted: true };
+        return response;
+      }
     });
 
     const response = await request.get('/users');
@@ -92,14 +103,71 @@ describe('RequestCore Basic', () => {
     const adapter = new MockAdapter();
     const request = createRequest({ adapter });
 
-    const id = request.interceptors.request.use((config) => {
-      config.headers = { ...config.headers, 'X-Removed': 'yes' };
-      return config;
+    request.interceptors.use({
+      id: 'removed',
+      request: (config) => {
+        config.headers = { ...config.headers, 'X-Removed': 'yes' };
+        return config;
+      }
     });
 
-    request.interceptors.request.eject(id);
+    request.interceptors.eject('removed');
     await request.get('/users');
     expect(adapter.lastConfig?.headers?.['X-Removed']).toBeUndefined();
+  });
+
+  test('should preset interceptors via config', async () => {
+    const adapter = new MockAdapter();
+    const request = createRequest({
+      adapter,
+      interceptors: [
+        {
+          id: 'preset',
+          request: (config) => {
+            config.headers = { ...config.headers, 'X-Preset': 'yes' };
+            return config;
+          }
+        }
+      ]
+    });
+
+    await request.get('/users');
+    expect(adapter.lastConfig?.headers?.['X-Preset']).toBe('yes');
+  });
+
+  test('should execute error interceptors in reverse order', async () => {
+    const adapter = new MockAdapter();
+    const order: string[] = [];
+    const request = createRequest({ adapter });
+
+    request.interceptors.use({
+      id: 'err1',
+      error: (err) => {
+        order.push('err1');
+        throw err;
+      }
+    });
+    request.interceptors.use({
+      id: 'err2',
+      error: (err) => {
+        order.push('err2');
+        throw err;
+      }
+    });
+
+    shouldFail = true;
+    await expect(request.get('/users')).rejects.toBeInstanceOf(RequestError);
+    expect(order).toEqual(['err2', 'err1']);
+  });
+
+  test('should get and list interceptors', () => {
+    const request = createRequest({ adapter: new MockAdapter() });
+
+    request.interceptors.use({ id: 'a', tags: ['auth'] });
+    request.interceptors.use({ id: 'b' });
+
+    expect(request.interceptors.get('a')?.tags).toEqual(['auth']);
+    expect(request.interceptors.getAll().map((i) => i.id)).toEqual(['a', 'b']);
   });
 
   test('should normalize network error into RequestError', async () => {

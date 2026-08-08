@@ -7,16 +7,12 @@ import { RequestError, ErrorType } from './errors';
  */
 export class RequestCore {
   private defaultConfig: RequestCoreConfig;
-  private requestInterceptors: InterceptorManager<RequestConfig, RequestConfig> = new InterceptorManager();
-  private responseInterceptors: InterceptorManager<Response, Response> = new InterceptorManager();
+  private interceptorManager: InterceptorManager = new InterceptorManager();
 
   /**
-   * 拦截器管理
+   * 统一的拦截器管理
    */
-  interceptors = {
-    request: this.requestInterceptors,
-    response: this.responseInterceptors
-  };
+  interceptors = this.interceptorManager;
 
   constructor(config: RequestCoreConfig) {
     this.defaultConfig = {
@@ -24,6 +20,13 @@ export class RequestCore {
       headers: {},
       ...config
     };
+
+    // 预置拦截器
+    if (config.interceptors) {
+      config.interceptors.forEach((interceptor) => {
+        this.interceptorManager.use(interceptor);
+      });
+    }
   }
 
   /**
@@ -35,13 +38,13 @@ export class RequestCore {
       const mergedConfig = this.mergeConfig(config);
 
       // 2. 执行请求拦截器
-      const processedConfig = await this.requestInterceptors.execute(mergedConfig);
+      const processedConfig = await this.interceptorManager.executeRequest(mergedConfig);
 
       // 3. 发送请求（通过适配器）
       const response = await this.defaultConfig.adapter.request(processedConfig);
 
       // 4. 执行响应拦截器
-      const processedResponse = await this.responseInterceptors.execute(response);
+      const processedResponse = await this.interceptorManager.executeResponse(response);
 
       // 5. slim 处理
       if (config.slim) {
@@ -71,9 +74,9 @@ export class RequestCore {
         } as any;
       }
 
-      // 执行响应拦截器的错误处理
+      // 执行拦截器的错误处理
       try {
-        return await this.responseInterceptors.handleError(requestError);
+        return await this.interceptorManager.executeError(requestError);
       } catch (err) {
         throw err;
       }

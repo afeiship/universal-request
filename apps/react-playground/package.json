@@ -9,10 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "@jswork/universal-request-adapter-fetch": "workspace:*",
     "@jswork/universal-request-core": "workspace:*",
-    "@jswork/universal-request-adapter-fetch": "workspace:*"
+    "@jswork/universal-request-interceptor-logger": "workspace:*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

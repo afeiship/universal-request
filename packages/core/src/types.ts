@@ -52,11 +52,22 @@ export interface Response<T = any> {
 }
 
 /**
- * 拦截器接口
+ * 拦截器接口（旧版，兼容用）
  */
 export interface Interceptor<V, R = V> {
   fulfilled?: (value: V) => R | Promise<R>;
   rejected?: (error: any) => any;
+}
+
+/**
+ * 统一拦截器接口
+ */
+export interface UnifiedInterceptor {
+  id: string;
+  tags?: string[];
+  request?: (config: RequestConfig) => RequestConfig | Promise<RequestConfig>;
+  response?: (res: Response<any>) => Response<any> | Promise<Response<any>>;
+  error?: (err: any) => any;
 }
 
 /**
@@ -75,4 +86,5 @@ export interface RequestCoreConfig {
   timeout?: number;
   headers?: Record<string, string>;
   dataType?: DataType;
+  interceptors?: UnifiedInterceptor[];
 }
