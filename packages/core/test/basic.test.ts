@@ -14,7 +14,7 @@ class MockAdapter extends BaseAdapter {
       throw new Error('Network Error');
     }
     return {
-      data: { ok: true, url: config.url },
+      data: { ok: true, url: this.buildURL(config) },
       status: 200,
       statusText: 'OK',
       headers: { 'content-type': 'application/json' },
@@ -200,12 +200,29 @@ describe('RequestCore Basic', () => {
     expect(response.data).toEqual({ ok: true, url: '/users' });
   });
 
-  test('should pass params to adapter', async () => {
+  test('should serialize GET payload into query string', async () => {
     const adapter = new MockAdapter();
     const request = createRequest({ adapter });
 
-    await request.get('/users', { page: 1, size: 10 });
-    expect(adapter.lastConfig?.params).toEqual({ page: 1, size: 10 });
+    const response = await request.get('/users', { page: 1, size: 10 });
+    expect(response.data.url).toBe('/users?page=1&size=10');
+  });
+
+  test('should serialize POST payload into body', async () => {
+    const adapter = new MockAdapter();
+    const request = createRequest({ adapter });
+
+    await request.post('/users', { name: 'foo' });
+    expect(adapter.lastConfig?.payload).toEqual({ name: 'foo' });
+    expect(adapter.lastConfig?.method).toBe('POST');
+  });
+
+  test('should keep payload in config for adapters', async () => {
+    const adapter = new MockAdapter();
+    const request = createRequest({ adapter });
+
+    await request.put('/users/1', { name: 'bar' });
+    expect(adapter.lastConfig?.payload).toEqual({ name: 'bar' });
   });
 });
 

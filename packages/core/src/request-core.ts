@@ -90,36 +90,36 @@ export class RequestCore {
   /**
    * GET 请求
    */
-  async get<T = any>(url: string, payload?: any, config?: RequestConfig): Promise<Response<T>> {
-    return this.request<T>({ ...config, url, method: 'GET', payload });
+  async get<T = any>(url: string, payload?: any, config?: Partial<RequestConfig>): Promise<Response<T>> {
+    return this.request<T>({ ...config, url, method: 'GET', payload } as RequestConfig);
   }
 
   /**
    * POST 请求
    */
-  async post<T = any>(url: string, payload?: any, config?: RequestConfig): Promise<Response<T>> {
-    return this.request<T>({ ...config, url, method: 'POST', payload });
+  async post<T = any>(url: string, payload?: any, config?: Partial<RequestConfig>): Promise<Response<T>> {
+    return this.request<T>({ ...config, url, method: 'POST', payload } as RequestConfig);
   }
 
   /**
    * PUT 请求
    */
-  async put<T = any>(url: string, payload?: any, config?: RequestConfig): Promise<Response<T>> {
-    return this.request<T>({ ...config, url, method: 'PUT', payload });
+  async put<T = any>(url: string, payload?: any, config?: Partial<RequestConfig>): Promise<Response<T>> {
+    return this.request<T>({ ...config, url, method: 'PUT', payload } as RequestConfig);
   }
 
   /**
    * DELETE 请求
    */
-  async delete<T = any>(url: string, payload?: any, config?: RequestConfig): Promise<Response<T>> {
-    return this.request<T>({ ...config, url, method: 'DELETE', payload });
+  async delete<T = any>(url: string, payload?: any, config?: Partial<RequestConfig>): Promise<Response<T>> {
+    return this.request<T>({ ...config, url, method: 'DELETE', payload } as RequestConfig);
   }
 
   /**
    * PATCH 请求
    */
-  async patch<T = any>(url: string, payload?: any, config?: RequestConfig): Promise<Response<T>> {
-    return this.request<T>({ ...config, url, method: 'PATCH', payload });
+  async patch<T = any>(url: string, payload?: any, config?: Partial<RequestConfig>): Promise<Response<T>> {
+    return this.request<T>({ ...config, url, method: 'PATCH', payload } as RequestConfig);
   }
 
   /**
