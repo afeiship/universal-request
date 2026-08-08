@@ -12,7 +12,7 @@ const DEFAULT_STATE: RequestState = {
   url: '/posts?_limit=5',
   headersText: '',
   paramsText: '',
-  bodyText: '{\n  "title": "foo",\n  "body": "bar",\n  "userId": 1\n}',
+  bodyText: '{}',
   timeout: 0,
   resolveError: false,
   dataType: 'json',
