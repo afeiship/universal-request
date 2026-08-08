@@ -15,7 +15,7 @@ const DEFAULT_STATE: RequestState = {
   bodyText: '{\n  "title": "foo",\n  "body": "bar",\n  "userId": 1\n}',
   timeout: 0,
   slim: false,
-  resolveAble: false,
+  resolveError: false,
   dataType: 'json',
   responseType: 'json'
 };
@@ -64,7 +64,7 @@ export default function AxiosPage() {
         data,
         timeout: state.timeout > 0 ? state.timeout : undefined,
         slim: state.slim,
-        resolveAble: state.resolveAble,
+        resolveError: state.resolveError,
         dataType: state.dataType,
         responseType: state.responseType,
         signal: controller.signal

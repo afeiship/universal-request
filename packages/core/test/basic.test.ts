@@ -181,12 +181,12 @@ describe('RequestCore Basic', () => {
     });
   });
 
-  test('should handle resolveAble: resolve instead of reject', async () => {
+  test('should handle resolveError: resolve instead of reject', async () => {
     const adapter = new MockAdapter();
     const request = createRequest({ adapter });
 
     shouldFail = true;
-    const response: any = await request.get('/users', undefined, { resolveAble: true });
+    const response: any = await request.get('/users', undefined, { resolveError: true });
     expect(response.status).toBe(0);
     expect(response.error).toBeInstanceOf(RequestError);
   });

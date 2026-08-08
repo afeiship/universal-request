@@ -66,8 +66,8 @@ export class RequestCore {
       // 处理错误
       const requestError = this.normalizeError(error, config);
 
-      // resolveAble 处理
-      if (config.resolveAble) {
+      // resolveError 处理
+      if (config.resolveError) {
         return {
           data: null,
           status: requestError.status || 0,

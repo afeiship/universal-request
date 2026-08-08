@@ -119,10 +119,10 @@ export function RequestPanel({ config, onChange, onSend, onAbort, loading }: Req
         <label className="checkbox">
           <input
             type="checkbox"
-            checked={config.resolveAble}
-            onChange={(e) => onChange({ resolveAble: e.target.checked })}
+            checked={config.resolveError}
+            onChange={(e) => onChange({ resolveError: e.target.checked })}
           />
-          resolveAble
+          resolveError
         </label>
       </div>
 

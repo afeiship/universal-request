@@ -34,7 +34,7 @@ export interface RequestConfig {
 
   // 老版本特性
   slim?: boolean;
-  resolveAble?: boolean;
+  resolveError?: boolean;
 
   // 扩展字段
   [key: string]: any;
