@@ -1,0 +1,68 @@
+# Universal Request
+
+跨平台请求库，基于适配器模式，支持 Web、微信小程序、React Native 等多端环境。
+
+## Docs
+
+- [README](README.md)
+- [需求文档](docs/01-requirements.md)
+- [老版本分析](docs/02-old-version-analysis.md)
+- [核心+Fetch适配器设计](docs/superpowers/specs/2026-08-07-core-fetch-design.md)
+- [拦截器统一化设计](docs/superpowers/specs/2026-08-08-interceptor-unification-design.md)
+- [拦截器简化语法设计](docs/superpowers/specs/2026-08-08-interceptor-simpler-syntax.md)
+
+## Project
+
+### Packages
+
+- **@jswork/universal-request-core** — 核心库，适配器模式 + 拦截器机制
+  - [README](packages/core/README.md)
+  - 源码: `packages/core/src/`
+    - `request-core.ts` — 请求核心类，支持预置拦截器
+    - `interceptor-manager.ts` — 统一拦截器管理器（use/eject/clear/get/getAll/executeRequest/executeResponse/executeError）
+    - `base-adapter.ts` — 适配器抽象基类
+    - `types.ts` — 类型定义（RequestConfig, Response, UnifiedInterceptor, InterceptorLike 等）
+    - `errors.ts` — 错误类型（RequestError, ErrorType）
+    - `safe-stringify.ts` — 安全 JSON 序列化（处理循环引用/BigInt）
+    - `with-timeout-abort.ts` — 超时 + 取消控制
+  - 测试: `packages/core/test/basic.test.ts`
+  - 依赖: `@jswork/pipe`
+
+- **@jswork/universal-request-adapter-fetch** — Fetch 适配器
+  - [README](packages/adapters/fetch/README.md)
+  - 源码: `packages/adapters/fetch/src/`
+    - `fetch-adapter.ts` — Fetch 实现
+    - `index.ts` — 导出
+
+- **@jswork/universal-request-interceptor-logger** — 日志拦截器
+  - [README](packages/interceptors/logger/README.md)
+  - 源码: `packages/interceptors/logger/src/index.ts`
+  - 导出: `createLoggerInterceptor(options?)`
+  - 支持自定义 prefix, onRequest, onResponse, onError
+
+### Apps
+
+- **react-playground** — React 调试页面
+  - 源码: `apps/react-playground/src/`
+  - 组件: RequestPanel, ResponsePanel, LogPanel
+  - 类型: `RequestState` (method, url, headersText, paramsText, bodyText, timeout, slim, resolveAble, dataType, responseType)
+
+## Architecture
+
+- 适配器模式: 核心通过 `Adapter` 接口与底层实现解耦
+- 拦截器机制: 统一的 `InterceptorManager`，支持 request/response/error 三阶段
+- 拦截器对象结构: `{ id, tags?, request?, response?, error? }`
+- 拦截器注册: 支持传对象或函数引用（框架自动调用）
+- 预置拦截器: 通过 `RequestCoreConfig.interceptors` 在初始化时传入
+
+## Features
+
+- 统一 API，多端运行
+- 适配器模式，灵活切换底层实现
+- 拦截器机制，基于 @jswork/pipe
+- 超时控制
+- 请求取消（AbortController）
+- TypeScript 完整类型支持
+- 多种数据格式（json/urlencoded/multipart/text/blob/auto）
+- slim 响应精简模式
+- resolveAble 错误恢复模式
