@@ -22,8 +22,7 @@ export interface RequestConfig {
   method?: HttpMethod;
   baseURL?: string;
   headers?: Record<string, string>;
-  params?: Record<string, any>;
-  data?: any;
+  payload?: any;
 
   // 功能配置
   timeout?: number;
