@@ -15,3 +15,4 @@ export { RequestCore, createRequest } from './request-core';
 
 // Utility functions
 export { withTimeoutAbort } from './with-timeout-abort';
+export { safeStringify } from './safe-stringify';

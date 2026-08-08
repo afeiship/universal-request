@@ -1,5 +1,6 @@
 import type { Adapter, RequestConfig, Response } from './types';
 import { withTimeoutAbort } from './with-timeout-abort';
+import { safeStringify } from './safe-stringify';
 
 /**
  * 适配器抽象基类
@@ -45,7 +46,7 @@ export abstract class BaseAdapter implements Adapter {
 
     switch (dataType) {
       case 'json':
-        result.body = JSON.stringify(data);
+        result.body = safeStringify(data);
         result.headers['Content-Type'] = 'application/json;charset=utf-8';
         break;
 
@@ -85,7 +86,7 @@ export abstract class BaseAdapter implements Adapter {
           });
           result.body = fd;
         } else {
-          result.body = JSON.stringify(data);
+          result.body = safeStringify(data);
           result.headers['Content-Type'] = 'application/json;charset=utf-8';
         }
         break;
