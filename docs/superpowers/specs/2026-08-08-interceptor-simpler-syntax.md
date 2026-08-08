@@ -21,21 +21,9 @@ interceptors: [
 
 ### 拦截器包
 
-每个拦截器包同时导出两样东西：
-
-1. **预构建的默认拦截器对象**（常量）—— `loggerInterceptor`
-2. **工厂函数** —— `createLoggerInterceptor`，用于自定义 options
+每个拦截器包只导出工厂函数 `createXxxInterceptor`。
 
 ```ts
-// 预构建的默认拦截器
-export const loggerInterceptor: UnifiedInterceptor = {
-  id: 'logger',
-  request: (config) => { ... },
-  response: (res) => { ... },
-  error: (err) => { ... }
-};
-
-// 工厂函数，保留给需要自定义的用户
 export function createLoggerInterceptor(options?: LoggerInterceptorOptions): UnifiedInterceptor { ... }
 ```
 
@@ -55,12 +43,7 @@ interceptors?: (UnifiedInterceptor | (() => UnifiedInterceptor))[];
 ### 使用方式
 
 ```ts
-// 简洁模式（无 options）— 直接传对象
-import { loggerInterceptor } from '@jswork/universal-request-interceptor-logger';
-
-interceptors: [loggerInterceptor]
-
-// 工厂模式（无 options）— 传函数引用，框架自动调用
+// 简洁模式（无 options）— 传函数引用，框架自动调用
 import { createLoggerInterceptor } from '@jswork/universal-request-interceptor-logger';
 
 interceptors: [createLoggerInterceptor]   // 不需要加 ()
@@ -73,24 +56,25 @@ interceptors: [createLoggerInterceptor({ prefix: '[API]' })]
 
 ## 命名约定
 
-所有拦截器包统一使用以下命名导出：
+所有拦截器包统一使用工厂函数命名：`create<Name>Interceptor`。
 
-| 导出 | 命名规则 | 示例 |
-|------|---------|------|
-| 预构建对象 | `<name>Interceptor` | `loggerInterceptor` |
-| 工厂函数 | `create<Name>Interceptor` | `createLoggerInterceptor` |
+| 包名 | 导出 |
+|------|------|
+| `@jswork/universal-request-interceptor-logger` | `createLoggerInterceptor` |
+| `@jswork/universal-request-interceptor-auth` | `createAuthInterceptor` |
+| 其他 | `createXxxInterceptor` |
 
 ## 改动范围
 
 ### 类型（`types.ts`）
-- `RequestCoreConfig.interceptors` 类型改为 `(UnifiedInterceptor | (() => UnifiedInterceptor))[]`
+- 新增 `InterceptorLike` 类型：`UnifiedInterceptor | (() => UnifiedInterceptor)`
+- `RequestCoreConfig.interceptors` 类型改为 `InterceptorLike[]`
 
 ### 核心（`request-core.ts`）
 - 构造时遍历 `interceptors`，检测每个元素类型，函数则调用后 `use`
 
 ### Logger 包（`interceptors/logger/src/index.ts`）
 - 保留 `LoggerInterceptorOptions` 和 `createLoggerInterceptor`
-- 新增导出 `loggerInterceptor` 常量
 
 ### Playground（`instance.ts`）
 - 改用 `createLoggerInterceptor` 传函数引用
