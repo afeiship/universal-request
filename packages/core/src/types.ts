@@ -34,6 +34,9 @@ export interface RequestConfig {
   // 老版本特性
   resolveError?: boolean;
 
+  // 元数据（透传到拦截器）
+  meta?: Record<string, any>;
+
   // 扩展字段
   [key: string]: any;
 }

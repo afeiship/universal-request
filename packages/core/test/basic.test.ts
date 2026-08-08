@@ -215,6 +215,14 @@ describe('RequestCore Basic', () => {
     await request.put('/users/1', { name: 'bar' });
     expect(adapter.lastConfig?.payload).toEqual({ name: 'bar' });
   });
+
+  test('should pass meta through config to adapter', async () => {
+    const adapter = new MockAdapter();
+    const request = createRequest({ adapter });
+
+    await request.get('/users', undefined, { meta: { tags: ['ni2lv'] } as any });
+    expect(adapter.lastConfig?.meta).toEqual({ tags: ['ni2lv'] });
+  });
 });
 
 describe('RequestError', () => {
