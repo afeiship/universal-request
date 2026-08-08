@@ -20,7 +20,7 @@
     "axios": "^1.0.0"
   },
   "devDependencies": {
-    "@jswork/universal-request-core": "workspace:*",
+    "@jswork/universal-request-core": "1.0.5",
     "axios": "^1.0.0",
     "typescript": "^5.0.0"
   },
@@ -36,5 +36,9 @@
     "type": "git",
     "url": "https://github.com/afeiship/universal-request"
   },
-  "gitHead": "ef059fb3aecf95450370f121f82b28a6835cd213"
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "gitHead": "817bfbc3133d0d516af3ccec814feb056fd2be32"
 }
