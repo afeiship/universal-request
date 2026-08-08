@@ -22,11 +22,20 @@
     "@jswork/universal-request-core": "workspace:*",
     "typescript": "^5.0.0"
   },
-  "keywords": ["request", "interceptor", "logger", "universal-request"],
+  "keywords": [
+    "request",
+    "interceptor",
+    "logger",
+    "universal-request"
+  ],
   "author": "afeiship",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/afeiship/universal-request"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
