@@ -37,6 +37,9 @@ export interface RequestConfig {
   // 元数据（透传到拦截器）
   meta?: Record<string, any>;
 
+  // 标签（用于拦截器匹配等场景）
+  tags?: string[];
+
   // 扩展字段
   [key: string]: any;
 }
