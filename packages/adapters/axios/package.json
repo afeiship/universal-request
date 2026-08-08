@@ -20,7 +20,7 @@
     "axios": "^1.0.0"
   },
   "devDependencies": {
-    "@jswork/universal-request-core": "workspace:*",
+    "@jswork/universal-request-core": "1.0.2",
     "axios": "^1.0.0",
     "typescript": "^5.0.0"
   },
@@ -35,5 +35,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/afeiship/universal-request"
-  }
+  },
+  "gitHead": "ef059fb3aecf95450370f121f82b28a6835cd213"
 }

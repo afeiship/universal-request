@@ -19,7 +19,7 @@
     "@jswork/universal-request-core": "^1.0.0"
   },
   "devDependencies": {
-    "@jswork/universal-request-core": "workspace:*",
+    "@jswork/universal-request-core": "1.0.2",
     "typescript": "^5.0.0"
   },
   "keywords": [
@@ -37,5 +37,6 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
-  }
+  },
+  "gitHead": "ef059fb3aecf95450370f121f82b28a6835cd213"
 }
