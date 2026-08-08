@@ -6,6 +6,6 @@ export const request = createRequest({
   adapter: new FetchAdapter(),
   baseURL: 'https://jsonplaceholder.typicode.com',
   interceptors: [
-    createLoggerInterceptor()
+    createLoggerInterceptor
   ]
 });

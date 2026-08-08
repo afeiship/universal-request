@@ -78,6 +78,11 @@ export interface Adapter {
 }
 
 /**
+ * 拦截器定义：可以是拦截器对象，或返回拦截器对象的工厂函数
+ */
+export type InterceptorLike = UnifiedInterceptor | (() => UnifiedInterceptor);
+
+/**
  * RequestCore 配置接口
  */
 export interface RequestCoreConfig {
@@ -86,5 +91,5 @@ export interface RequestCoreConfig {
   timeout?: number;
   headers?: Record<string, string>;
   dataType?: DataType;
-  interceptors?: UnifiedInterceptor[];
+  interceptors?: InterceptorLike[];
 }

@@ -24,7 +24,11 @@ export class RequestCore {
     // 预置拦截器
     if (config.interceptors) {
       config.interceptors.forEach((interceptor) => {
-        this.interceptorManager.use(interceptor);
+        if (typeof interceptor === 'function') {
+          this.interceptorManager.use(interceptor());
+        } else {
+          this.interceptorManager.use(interceptor);
+        }
       });
     }
   }
