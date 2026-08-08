@@ -22,7 +22,7 @@ body {
   background: #161b22;
   border-bottom: 1px solid #30363d;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 12px;
 }
 
@@ -36,12 +36,42 @@ body {
   font-size: 13px;
 }
 
+.app-nav {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+}
+
+.nav-link {
+  padding: 6px 14px;
+  border-radius: 4px;
+  color: #8b949e;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-link:hover {
+  background: #21262d;
+  color: #c9d1d9;
+}
+
+.nav-active {
+  background: #1f6feb;
+  color: #fff;
+}
+
 .app-main {
   flex: 1;
+  display: flex;
+  padding: 16px;
+}
+
+.page-content {
   display: grid;
   grid-template-columns: 380px 1fr;
   gap: 16px;
-  padding: 16px;
+  width: 100%;
 }
 
 .panel-right {

@@ -1,0 +1,39 @@
+{
+  "name": "@jswork/universal-request-adapter-axios",
+  "version": "1.0.0",
+  "description": "Axios adapter for universal-request",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "peerDependencies": {
+    "axios": "^1.0.0",
+    "@jswork/universal-request-core": "^1.0.0"
+  },
+  "devDependencies": {
+    "@jswork/universal-request-core": "workspace:*",
+    "axios": "^1.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "request",
+    "axios",
+    "adapter",
+    "http"
+  ],
+  "author": "afeiship",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/afeiship/universal-request"
+  }
+}

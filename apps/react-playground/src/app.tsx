@@ -1,121 +1,37 @@
-import { useRef, useState } from 'react';
-import { RequestError, ErrorType } from '@jswork/universal-request-core';
-import type { Response } from '@jswork/universal-request-core';
-import { request } from './request/instance';
-import type { RequestState } from './types';
-import { RequestPanel } from './components/request-panel';
-import { ResponsePanel } from './components/response-panel';
-import { LogPanel } from './components/log-panel';
-
-const DEFAULT_STATE: RequestState = {
-  method: 'GET',
-  url: '/posts?_limit=5',
-  headersText: '',
-  paramsText: '',
-  bodyText: '{\n  "title": "foo",\n  "body": "bar",\n  "userId": 1\n}',
-  timeout: 0,
-  slim: false,
-  resolveAble: false,
-  dataType: 'json',
-  responseType: 'json'
-};
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
+import FetchPage from './pages/fetch-page';
+import AxiosPage from './pages/axios-page';
 
 export default function App() {
-  const [state, setState] = useState<RequestState>(DEFAULT_STATE);
-  const [response, setResponse] = useState<Response | null>(null);
-  const [error, setError] = useState<RequestError | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [duration, setDuration] = useState(0);
-  const controllerRef = useRef<AbortController | null>(null);
-
-  const handleChange = (patch: Partial<RequestState>) => {
-    setState((prev) => ({ ...prev, ...patch }));
-  };
-
-  const parseJson = (text: string, field: string): Record<string, any> | undefined => {
-    if (!text.trim()) return undefined;
-    try {
-      return JSON.parse(text);
-    } catch {
-      throw new Error(`${field} JSON 解析失败，请检查格式`);
-    }
-  };
-
-  const handleSend = async () => {
-    setLoading(true);
-    setError(null);
-    setResponse(null);
-
-    const controller = new AbortController();
-    controllerRef.current = controller;
-    const start = performance.now();
-
-    try {
-      const headers = parseJson(state.headersText, 'headers');
-      const params = parseJson(state.paramsText, 'params');
-      const hasBody = state.method !== 'GET' && state.method !== 'HEAD';
-      const data = hasBody ? parseJson(state.bodyText, 'body') : undefined;
-
-      const res = await request.request({
-        url: state.url,
-        method: state.method,
-        headers,
-        params,
-        data,
-        timeout: state.timeout > 0 ? state.timeout : undefined,
-        slim: state.slim,
-        resolveAble: state.resolveAble,
-        dataType: state.dataType,
-        responseType: state.responseType,
-        signal: controller.signal
-      });
-
-      // resolveAble 时失败也会 resolve，返回带 error 字段的对象
-      const maybeError = (res as any).error;
-      if (maybeError instanceof RequestError) {
-        setError(maybeError);
-      } else {
-        setResponse(res);
-      }
-    } catch (err: any) {
-      if (err instanceof RequestError) {
-        setError(err);
-      } else {
-        setError(
-          new RequestError(err?.message || 'Unknown error', ErrorType.UNKNOWN_ERROR, {} as any)
-        );
-      }
-    } finally {
-      setDuration(performance.now() - start);
-      setLoading(false);
-    }
-  };
-
-  const handleAbort = () => {
-    controllerRef.current?.abort();
-  };
-
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>Universal Request Playground</h1>
-        <span className="subtitle">@jswork/universal-request</span>
-      </header>
-      <main className="app-main">
-        <section className="panel-left">
-          <RequestPanel
-            config={state}
-            onChange={handleChange}
-            onSend={handleSend}
-            onAbort={handleAbort}
-            loading={loading}
-          />
-        </section>
-        <section className="panel-right">
-          <ResponsePanel response={response} error={error} loading={loading} duration={duration} />
-          <LogPanel />
-        </section>
-      </main>
-    </div>
+    <BrowserRouter>
+      <div className="app">
+        <header className="app-header">
+          <h1>Universal Request Playground</h1>
+          <span className="subtitle">@jswork/universal-request</span>
+          <nav className="app-nav">
+            <NavLink
+              to="/"
+              className={({ isActive }) => (isActive ? 'nav-link nav-active' : 'nav-link')}
+              end
+            >
+              Fetch
+            </NavLink>
+            <NavLink
+              to="/axios"
+              className={({ isActive }) => (isActive ? 'nav-link nav-active' : 'nav-link')}
+            >
+              Axios
+            </NavLink>
+          </nav>
+        </header>
+        <main className="app-main">
+          <Routes>
+            <Route path="/" element={<FetchPage />} />
+            <Route path="/axios" element={<AxiosPage />} />
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
   );
 }
