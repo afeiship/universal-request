@@ -90,36 +90,36 @@ export class RequestCore {
   /**
    * GET 请求
    */
-  async get<T = any>(url: string, params?: any, config?: Omit<RequestConfig, 'url' | 'method' | 'params'>): Promise<Response<T>> {
-    return this.request<T>({ ...config, url, method: 'GET', params });
+  async get<T = any>(url: string, payload?: any, config?: RequestConfig): Promise<Response<T>> {
+    return this.request<T>({ ...config, url, method: 'GET', payload });
   }
 
   /**
    * POST 请求
    */
-  async post<T = any>(url: string, data?: any, config?: Omit<RequestConfig, 'url' | 'method' | 'data'>): Promise<Response<T>> {
-    return this.request<T>({ ...config, url, method: 'POST', data });
+  async post<T = any>(url: string, payload?: any, config?: RequestConfig): Promise<Response<T>> {
+    return this.request<T>({ ...config, url, method: 'POST', payload });
   }
 
   /**
    * PUT 请求
    */
-  async put<T = any>(url: string, data?: any, config?: Omit<RequestConfig, 'url' | 'method' | 'data'>): Promise<Response<T>> {
-    return this.request<T>({ ...config, url, method: 'PUT', data });
+  async put<T = any>(url: string, payload?: any, config?: RequestConfig): Promise<Response<T>> {
+    return this.request<T>({ ...config, url, method: 'PUT', payload });
   }
 
   /**
    * DELETE 请求
    */
-  async delete<T = any>(url: string, config?: Omit<RequestConfig, 'url' | 'method'>): Promise<Response<T>> {
-    return this.request<T>({ ...config, url, method: 'DELETE' });
+  async delete<T = any>(url: string, payload?: any, config?: RequestConfig): Promise<Response<T>> {
+    return this.request<T>({ ...config, url, method: 'DELETE', payload });
   }
 
   /**
    * PATCH 请求
    */
-  async patch<T = any>(url: string, data?: any, config?: Omit<RequestConfig, 'url' | 'method' | 'data'>): Promise<Response<T>> {
-    return this.request<T>({ ...config, url, method: 'PATCH', data });
+  async patch<T = any>(url: string, payload?: any, config?: RequestConfig): Promise<Response<T>> {
+    return this.request<T>({ ...config, url, method: 'PATCH', payload });
   }
 
   /**
