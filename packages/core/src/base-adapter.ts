@@ -13,7 +13,7 @@ export abstract class BaseAdapter implements Adapter {
   abstract request(config: RequestConfig): Promise<Response>;
 
   /**
-   * 构建完整 URL（baseURL + url + params）
+   * 构建完整 URL（baseURL + url + payload query）
    */
   protected buildURL(config: RequestConfig): string {
     let url = config.url;
@@ -23,9 +23,10 @@ export abstract class BaseAdapter implements Adapter {
       url = config.baseURL.replace(/\/$/, '') + '/' + url.replace(/^\//, '');
     }
 
-    // 拼接查询参数
-    if (config.params && Object.keys(config.params).length > 0) {
-      const queryString = new URLSearchParams(config.params).toString();
+    // GET/HEAD/DELETE 时，payload 作为 query string 拼接
+    const isQueryMethod = config.method === 'GET' || config.method === 'HEAD' || config.method === 'DELETE';
+    if (isQueryMethod && config.payload && Object.keys(config.payload).length > 0) {
+      const queryString = new URLSearchParams(config.payload).toString();
       url += (url.includes('?') ? '&' : '?') + queryString;
     }
 
