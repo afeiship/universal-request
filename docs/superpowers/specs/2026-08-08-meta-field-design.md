@@ -60,15 +60,15 @@ export interface ApiItem {
 
 ```
 schema.ts:
-  categories_root: ['get', '/categories/root', { tags: ['ni2lv'] }]
-  badges_top: ['get', '/badges/top', { tags: ['featured'] }]
+  categories_root: ['get', '/categories/root', { tags: ['paginate'] }]
+  badges_top: ['get', '/badges/top', { tags: ['paginate'] }]
                           ↓
 http-schema/parser.ts 解析为 ApiItem
   { name: 'categories_root', method: 'get', fullPath: '/categories/root',
-    meta: { tags: ['ni2lv'] } }
+    meta: { tags: ['paginate'] } }
                           ↓
 http-schema/index.ts 构建请求配置
-  config = { url: '/categories/root', method: 'GET', meta: { tags: ['ni2lv'] } }
+  config = { url: '/categories/root', method: 'GET', meta: { tags: ['paginate'] } }
                           ↓
 universal-request-core 处理
   → 拦截器 request 阶段可读取 config.meta
@@ -77,8 +77,8 @@ universal-request-core 处理
   → 拦截器 response 阶段可读取 config.meta（通过 res.config.meta）
                           ↓
 interceptor:
-  if (config.meta?.tags?.includes('ni2lv')) {
-    // 数据转换
+  if (config.meta?.tags?.includes('paginate')) {
+    // 将数组响应包装为分页结构
   }
 ```
 
@@ -123,43 +123,34 @@ export default {
       request: ['', 'json'],
       items: {
         me: ['get', '/me'],
-        categories_root: ['get', '/categories/root', { tags: ['ni2lv'] }],
-        badges_top: ['get', '/badges/top', { tags: ['featured'] }],
+        categories_root: ['get', '/categories/root', { tags: ['paginate'] }],
+        badges_top: ['get', '/badges/top', { tags: ['paginate'] }, { pageSize: 3 }],
       },
     },
   ],
 };
 ```
 
-### 4. http-schema/apps/example/src/interceptors/tag-transform.ts
+### 4. http-schema/apps/example/src/interceptors/paginate.ts
 
-新建响应拦截器，读取 `config.meta.tags` 做条件转换：
+新建响应拦截器，读取 `config.meta` 做分页包装：
 
 ```typescript
-const tagTransformInterceptor = () => ({
-  id: 'tag-transform',
+const paginateInterceptor = () => ({
+  id: 'paginate',
   response: (res) => {
-    const tags = res.config?.meta?.tags;
-    if (!tags || !tags.length) return res;
+    const meta = res.config?.meta;
+    if (!meta?.tags?.includes('paginate')) return res;
 
-    if (tags.includes('ni2lv')) {
-      // ni2lv 转换：将 categories 转成 key-value 格式
-      if (Array.isArray(res.data)) {
-        res.data = res.data.map((item: any) => ({
-          value: item.id,
-          label: item.name,
-        }));
-      }
-    }
-
-    if (tags.includes('featured')) {
-      // featured 标记：为每个 item 添加 _featured 标记
-      if (Array.isArray(res.data)) {
-        res.data = res.data.map((item: any) => ({
-          ...item,
-          _featured: true,
-        }));
-      }
+    // 将数组响应包装为分页结构
+    if (Array.isArray(res.data)) {
+      const pageSize = meta.pageSize ?? 10;
+      res.data = {
+        items: res.data,
+        total: res.data.length,
+        page: 1,
+        pageSize,
+      };
     }
 
     return res;
@@ -175,12 +166,12 @@ const tagTransformInterceptor = () => ({
 import httpSchema from '@jswork/http-schema';
 import { FetchAdapter } from '@jswork/universal-request-adapter-fetch';
 import schema from './schema';
-import { tagTransformInterceptor } from './interceptors/tag-transform';
+import { paginateInterceptor } from './interceptors/paginate';
 
 const api = httpSchema(schema, {
   adapter: new FetchAdapter(),
   transformResponse: (res) => res.data,
-  interceptors: [tagTransformInterceptor],
+  interceptors: [paginateInterceptor],
 });
 
 export default api;
@@ -199,7 +190,7 @@ export default api;
     { "id": 2, "name": "Life", "root": false }
   ],
   "tags": [
-    { "id": 1, "name": "ni2lv", "description": "内部标签" },
+    { "id": 1, "name": "pg", "description": "分页标签" },
     { "id": 2, "name": "featured", "description": "精选" }
   ],
   "me": {...}
@@ -219,16 +210,15 @@ export default api;
 
 ## 拦截器设计原则
 
-1. **读取 `config.meta.tags`，不修改它** — meta 是声明式输入，拦截器只读
+1. **读取 `config.meta`，不修改它** — meta 是声明式输入，拦截器只读
 2. **拦截器修改 `res.data`** — 输出端转换，不影响缓存或后续请求
-3. **每个 tag 独立处理** — 多个 tag 可叠加效果
-4. **无匹配 tag 时直接返回** — 零开销跳过
+3. **无匹配 tag 时直接返回** — 零开销跳过
 
 ## 验证方式
 
 1. `pnpm build` 通过（核心库 + 示例）
 2. `pnpm test` 通过（23 项测试）
 3. 运行 `pnpm dev` 打开浏览器：
-   - 点击 `categories_root` → 返回数据被 ni2lv 转换（id → value, name → label）
-   - 点击 `badges_top` → 返回数据被 featured 标记（每个 item 有 `_featured: true`）
-   - 点击 `tags_index`/`tags_show` 等 CRUD 正常
+   - 点击 `categories_root` → 返回数据被 paginate 包装为 `{ items, total, page, pageSize }`
+   - 点击 `badges_top` → 同样被分页包装，pageSize 为 schema 中指定的 3
+   - 点击 `tags_index`/`tags_show` 等 CRUD 正常（无 meta → 原样返回）
