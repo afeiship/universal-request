@@ -1,6 +1,6 @@
 {
   "name": "@jswork/universal-request-core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Universal request core with adapter pattern",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,9 +20,9 @@
     "@jswork/pipe": "^1.1.2"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.1",
-    "@types/jest": "^29.5.0",
     "typescript": "^5.0.0"
   },
   "keywords": [
