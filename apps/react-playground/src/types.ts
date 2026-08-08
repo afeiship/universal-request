@@ -7,7 +7,6 @@ export interface RequestState {
   paramsText: string;
   bodyText: string;
   timeout: number;
-  slim: boolean;
   resolveError: boolean;
   dataType: DataType;
   responseType: ResponseType;
