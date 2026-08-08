@@ -32,7 +32,6 @@ export interface RequestConfig {
   withCredentials?: boolean;
 
   // 老版本特性
-  slim?: boolean;
   resolveError?: boolean;
 
   // 扩展字段

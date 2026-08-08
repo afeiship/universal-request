@@ -50,17 +50,6 @@ export class RequestCore {
       // 4. 执行响应拦截器
       const processedResponse = await this.interceptorManager.executeResponse(response);
 
-      // 5. slim 处理
-      if (config.slim) {
-        return {
-          data: processedResponse.data,
-          status: processedResponse.status,
-          statusText: processedResponse.statusText,
-          headers: processedResponse.headers,
-          config: processedResponse.config
-        } as any;
-      }
-
       return processedResponse;
     } catch (error: any) {
       // 处理错误
