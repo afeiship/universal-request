@@ -1,6 +1,6 @@
 {
   "name": "@jswork/universal-request-adapter-fetch",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Fetch adapter for universal-request",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
