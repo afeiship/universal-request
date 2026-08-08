@@ -34,6 +34,13 @@
     - `fetch-adapter.ts` — Fetch 实现
     - `index.ts` — 导出
 
+- **@jswork/universal-request-adapter-axios** — Axios 适配器
+  - [README](packages/adapters/axios/README.md)
+  - 源码: `packages/adapters/axios/src/`
+    - `axios-adapter.ts` — Axios 实现，支持传入自定义 axios 实例
+    - `index.ts` — 导出
+  - peerDependencies: `axios ^1.0.0`
+
 - **@jswork/universal-request-interceptor-logger** — 日志拦截器
   - [README](packages/interceptors/logger/README.md)
   - 源码: `packages/interceptors/logger/src/index.ts`
@@ -42,9 +49,14 @@
 
 ### Apps
 
-- **react-playground** — React 调试页面
+- **react-playground** — React 调试页面（react-router-dom 路由）
   - 源码: `apps/react-playground/src/`
+  - 路由:
+    - `/` → Fetch adapter demo
+    - `/axios` → Axios adapter demo
+  - 页面: `pages/fetch-page.tsx`, `pages/axios-page.tsx`
   - 组件: RequestPanel, ResponsePanel, LogPanel
+  - 请求实例: `request/fetch-instance.ts`, `request/axios-instance.ts`
   - 类型: `RequestState` (method, url, headersText, paramsText, bodyText, timeout, slim, resolveAble, dataType, responseType)
 
 ## Architecture
@@ -54,11 +66,12 @@
 - 拦截器对象结构: `{ id, tags?, request?, response?, error? }`
 - 拦截器注册: 支持传对象或函数引用（框架自动调用）
 - 预置拦截器: 通过 `RequestCoreConfig.interceptors` 在初始化时传入
+- Lerna independent 模式: 各包独立版本管理
 
 ## Features
 
 - 统一 API，多端运行
-- 适配器模式，灵活切换底层实现
+- 适配器模式，灵活切换底层实现（Fetch / Axios）
 - 拦截器机制，基于 @jswork/pipe
 - 超时控制
 - 请求取消（AbortController）
