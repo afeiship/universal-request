@@ -1,6 +1,6 @@
 {
   "name": "@jswork/universal-request-adapter-mp-uniapp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Uniapp(Weixin mini program) adapter for universal-request",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
