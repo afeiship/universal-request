@@ -1,0 +1,48 @@
+{
+  "name": "@jswork/universal-request-adapter-mp-uniapp",
+  "version": "1.0.0",
+  "description": "Uniapp(Weixin mini program) adapter for universal-request",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest"
+  },
+  "peerDependencies": {
+    "@jswork/universal-request-core": "^1.0.0"
+  },
+  "devDependencies": {
+    "@jswork/universal-request-core": "workspace:*",
+    "@types/jest": "^29.5.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "request",
+    "uniapp",
+    "weixin",
+    "weixin-mini-program",
+    "mina",
+    "adapter",
+    "http"
+  ],
+  "author": "afeiship",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/afeiship/universal-request"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
